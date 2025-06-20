@@ -13,7 +13,7 @@ import sys
 # The function accepts following parameters:
 #  1. STRING s
 #  2. INTEGER k
-#
+#  Sufix method
 
 def ashtonString(text, k):
     # Write your code here
