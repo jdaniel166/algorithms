@@ -1,48 +1,65 @@
-#!/bin/python3
+def calculate_z(s):
 
-import math
-import os
-import random
-import re
-import sys
+    n = len(s)  # Length of the input string
+    z = [0] * n  # Initialize Z-array with zeros
+    l, r, k = 0, 0, 0  # Initialize left and right boundary of Z-box
 
-#
-# Complete the 'stringSimilarity' function below.
-#
-# The function is expected to return an INTEGER.
-# The function accepts STRING s as parameter.
-#
+    for i in range(1, n):
 
-def stringSimilarity(s):
-    # Write your code here
-    result = 0
-    l,r = 0,0
-    tlen = len(s) 
-    z = [0] * tlen
-    
-    for x in range(1, len(s)):
-        if (x <= r):
-            z[x] = min(r-x+1, z[x-l])
-        while x+z[x] < tlen and s[x+z[x]] == s[z[x]]:
-            z[x] +=1
-        if (x + z[x] -1 > r):
-            l, r = x, x+z[x] -1
-    for x in z:
-        result +=x   
-    result += tlen
-    print(z)                
-    return result     
-            
-if __name__ == '__main__':
-    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+       # Case 1: i is outside the current Z-box
+        if i > r:
+            l, r = i, i
+            while r < n and s[r] == s[r - l]:
+                r += 1
+            z[i] = r - l
+            r -= 1
 
-    t = int(input().strip())
+            # Case 2: i is inside the current Z-box
+        else:
+            k = i - l
 
-    for t_itr in range(t):
-        s = input()
+            # Case 2a: Value does not stretch outside the Z-box
+            if z[k] < r - i + 1:
+                z[i] = z[k]
 
-        result = stringSimilarity(s)
+                # Case 2b: Value stretches outside the Z-box
+            else:
 
-        fptr.write(str(result) + '\n')
+               # Case 2b: Value stretches outside the Z-box
+                l = i
+                while r < n and s[r] == s[r - l]:
+                    r += 1
+                z[i] = r - l
+                r -= 1
+    return z
 
-    fptr.close()
+
+def z_algorithm(pattern, text):
+
+         # Concatenate pattern, delimiter, and text
+    combined = pattern + "$" + text
+
+    # Calculate Z-array for the combined string
+    z = calculate_z(combined)
+
+    # Length of the pattern
+    pattern_length = len(pattern)
+
+    # List to store the result indices
+    result = []
+
+    for i in range(len(z)):
+
+      # If Z-value equals pattern length, pattern is found
+        if z[i] == pattern_length:
+
+          # Append starting index to result
+            result.append(i - pattern_length - 1)
+
+    return result
+
+# Example usage:
+pattern = "abc"
+text = "ababcabc"
+result = z_algorithm(pattern, text)
+print("Pattern found at indices:", result)  # Output should be [2, 5]
