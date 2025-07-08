@@ -5,9 +5,9 @@ import re
 import sys
 
 class SuffixNode:    
-    def __init__(self):
-        self.index = 0
-        self.rank = [0, 0]
+    def __init__(self, index, rank):
+        self.index = index
+        self.rank = rank
         
 def buildSuffixArray(s):
     # Write your code here
