@@ -31,7 +31,7 @@ def buildSuffixArray(s):
                 rank +=1
                 suffixes[i].rank[0] = rank
             suffixInd[suffixes[i].index] = i            
-        for i in range(1, tlen):
+        for i in range(tlen):
             nextindex = suffixes[i].index + k//2
             suffixes[i].rank[1] = suffixes[suffixInd[nextindex]].rank[0] if nextindex < tlen else -1                        
         suffixes.sort(key = lambda x:(x.rank[0], x.rank[1]))
