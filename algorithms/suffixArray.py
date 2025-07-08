@@ -4,6 +4,11 @@ import random
 import re
 import sys
 
+class SuffixNode:    
+    def __init__(self):
+        self.index = 0
+        self.rank = [0, 0]
+        
 def buildSuffixArray(s):
     # Write your code here
     tlen = len(s)
