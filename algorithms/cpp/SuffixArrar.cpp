@@ -1,3 +1,6 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 struct SuffixNode {
    int index = 0;
    std::pair<int, int> rank;
