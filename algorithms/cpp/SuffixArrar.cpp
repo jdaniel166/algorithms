@@ -11,7 +11,28 @@ struct SuffixNode {
    } 
 }; 
 
-
+std::vector<int> findLcp(const std::vector<int> &suffixA, std::string s) {
+    int slen = suffixA.size();
+    std::vector<int> lcpArray(slen, 0);
+    std::vector<int> invSuffix(slen, 0);
+    for (int start = 0; start < slen; start++) {
+        invSuffix[suffixA[start]] = start;
+    } 
+    auto k = 0;
+   for (int start = 0; start < slen; start++) {
+        if (invSuffix[start] == slen -1) {
+            k = 0;
+            continue;
+        }
+        auto j = suffixA[invSuffix[start]+1];
+        while (start + k < slen && j+k < slen && s[start+k] == s[j+k]) {
+            k++;
+        } 
+        lcpArray[invSuffix[start]] = k ;
+        if (k > 0) k--;  
+   } 
+   return lcpArray;
+}
  
 std::vector<int> computeSuffixA(std::string s) {
     std::vector<int> result;
