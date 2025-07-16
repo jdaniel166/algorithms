@@ -11,6 +11,24 @@ struct SuffixNode {
    } 
 }; 
 
+void printallSubstrings(string p) {
+    // Print the answer for this test case in a single line
+    int ll = p.length();
+    auto suffixA = computeSuffixA(p);
+    auto lcp = findLcp(suffixA, p);
+    
+    for (int start = 0; start<int(suffixA.size());start++) {
+        auto str1 = p.substr(suffixA[start]);
+        auto cnt = 1 + (start == 0 ? 0 :lcp[start-1]);
+        while(cnt <= str1.length()) {
+           std::cout<< str1.substr(0, cnt);
+           cnt++;      
+        }
+    }
+    
+}
+
+
 std::vector<int> findLcp(const std::vector<int> &suffixA, std::string s) {
     int slen = suffixA.size();
     std::vector<int> lcpArray(slen, 0);
